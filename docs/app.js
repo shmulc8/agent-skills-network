@@ -26,6 +26,31 @@ const hint = document.getElementById('hint');
 let points, clusters, teams;
 let teamById = new Map();
 
+// Help modal — attach listeners immediately, not inside build(), so the
+// button works even before the data fetch resolves.
+(function setupHelp() {
+  const helpModal = document.getElementById('helpModal');
+  const helpBtn = document.getElementById('helpBtn');
+  const helpClose = document.getElementById('helpClose');
+  if (!helpModal || !helpBtn || !helpClose) return;
+  const toggle = (open) => {
+    const willOpen = open ?? !helpModal.classList.contains('open');
+    helpModal.classList.toggle('open', willOpen);
+  };
+  helpBtn.addEventListener('click', () => toggle(true));
+  helpClose.addEventListener('click', () => toggle(false));
+  helpModal.addEventListener('click', (e) => { if (e.target === helpModal) toggle(false); });
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && helpModal.classList.contains('open')) {
+      e.stopPropagation();
+      toggle(false);
+    } else if ((e.key === '?' || (e.key === '/' && e.shiftKey)) && document.activeElement.tagName !== 'INPUT') {
+      e.preventDefault();
+      toggle();
+    }
+  });
+})();
+
 init();
 
 async function init() {
@@ -441,17 +466,6 @@ function build() {
     updateAlphas();
   });
 
-  // Help modal
-  const helpModal = document.getElementById('helpModal');
-  const helpBtn = document.getElementById('helpBtn');
-  const helpClose = document.getElementById('helpClose');
-  function toggleHelp(open) {
-    const willOpen = open ?? !helpModal.classList.contains('open');
-    helpModal.classList.toggle('open', willOpen);
-  }
-  helpBtn.addEventListener('click', () => toggleHelp(true));
-  helpClose.addEventListener('click', () => toggleHelp(false));
-  helpModal.addEventListener('click', (e) => { if (e.target === helpModal) toggleHelp(false); });
 
   function renderLegend() {
     clustersEl.innerHTML = '';
@@ -677,16 +691,10 @@ function build() {
 
   window.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
-      if (helpModal.classList.contains('open')) { toggleHelp(false); return; }
       info.classList.remove('open');
       selectedId = -1;
       selRing.visible = false;
       updateAlphas();
-    } else if (e.key === '?' || (e.key === '/' && e.shiftKey)) {
-      if (document.activeElement.tagName !== 'INPUT') {
-        e.preventDefault();
-        toggleHelp();
-      }
     }
   });
 
