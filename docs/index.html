@@ -35,6 +35,7 @@
       <div class="results" id="results"></div>
     </div>
     <button class="btn" id="resetView">Reset</button>
+    <button class="btn help-btn" id="helpBtn" aria-label="About this site" title="About">?</button>
   </div>
 </header>
 <div class="backdrop" id="backdrop"></div>
@@ -70,6 +71,49 @@
 </div>
 
 <div class="hint" id="hint">drag to rotate · scroll to zoom · click a point</div>
+
+<div class="modal" id="helpModal" role="dialog" aria-modal="true" aria-labelledby="helpTitle">
+  <div class="modal-card">
+    <button class="close" id="helpClose" aria-label="Close">✕</button>
+    <h2 id="helpTitle">Agent Skills Latent Space</h2>
+    <p class="lede">
+      An interactive 3D map of <strong>907 agent skills</strong> curated in
+      <a href="https://github.com/VoltAgent/awesome-agent-skills" target="_blank" rel="noopener">VoltAgent/awesome-agent-skills</a>.
+      Skills that describe similar capabilities end up near each other in space.
+    </p>
+
+    <h3>Pipeline</h3>
+    <ol class="flow">
+      <li><strong>Parse</strong> ~900 one-liners from the source README into <code>(name, team, description)</code>.</li>
+      <li><strong>Embed</strong> each <code>name: description</code> with <code>all-MiniLM-L6-v2</code> (384-d).</li>
+      <li><strong>Project</strong> to 3D with UMAP (cosine metric).</li>
+      <li><strong>Cluster</strong> in the 384-d space with KMeans (k=10) — projection is lossy, so we cluster on the embedding, not on the 3D coords.</li>
+      <li><strong>Label</strong> each cluster by asking <code>gemma4:e2b</code> (via Ollama) for a 3–6 word human title over its 30 centroid-nearest members.</li>
+      <li><strong>Render</strong> with Three.js — glow sprites, neighbor-web, fog, orbit controls.</li>
+    </ol>
+
+    <h3>Colors</h3>
+    <ul class="flow">
+      <li><strong>Color by Topic</strong> — each point is tinted by its KMeans cluster, labeled via Gemma (e.g. "Authentication and Identity Management").</li>
+      <li><strong>Color by Team</strong> — each point is tinted by the GitHub-org prefix of its skill (<code>anthropics/</code>, <code>microsoft/</code>, <code>getsentry/</code>, …). 161 distinct teams.</li>
+    </ul>
+
+    <h3>Controls</h3>
+    <ul class="flow">
+      <li><strong>Drag</strong> to rotate · <strong>scroll</strong> to zoom · <strong>right-drag</strong> to pan.</li>
+      <li><strong>Hover</strong> a point → tooltip · <strong>click</strong> a point → detail panel (with link to the skill).</li>
+      <li><strong>Sidebar row</strong>: click to isolate, shift-click to toggle.</li>
+      <li><strong>Search</strong>: full-text over name, description, and team.</li>
+    </ul>
+
+    <p class="foot">
+      Source + pipeline:
+      <a href="https://github.com/shmulc8/agent-skills-network" target="_blank" rel="noopener">shmulc8/agent-skills-network</a>
+      · Sibling project:
+      <a href="https://shmulc8.github.io/mikes-latent-space/" target="_blank" rel="noopener">Mike's latent space</a>
+    </p>
+  </div>
+</div>
 
 <script type="module" src="./app.js"></script>
 </body>

@@ -441,6 +441,18 @@ function build() {
     updateAlphas();
   });
 
+  // Help modal
+  const helpModal = document.getElementById('helpModal');
+  const helpBtn = document.getElementById('helpBtn');
+  const helpClose = document.getElementById('helpClose');
+  function toggleHelp(open) {
+    const willOpen = open ?? !helpModal.classList.contains('open');
+    helpModal.classList.toggle('open', willOpen);
+  }
+  helpBtn.addEventListener('click', () => toggleHelp(true));
+  helpClose.addEventListener('click', () => toggleHelp(false));
+  helpModal.addEventListener('click', (e) => { if (e.target === helpModal) toggleHelp(false); });
+
   function renderLegend() {
     clustersEl.innerHTML = '';
     if (colorMode === 'team') {
@@ -665,10 +677,16 @@ function build() {
 
   window.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
+      if (helpModal.classList.contains('open')) { toggleHelp(false); return; }
       info.classList.remove('open');
       selectedId = -1;
       selRing.visible = false;
       updateAlphas();
+    } else if (e.key === '?' || (e.key === '/' && e.shiftKey)) {
+      if (document.activeElement.tagName !== 'INPUT') {
+        e.preventDefault();
+        toggleHelp();
+      }
     }
   });
 
