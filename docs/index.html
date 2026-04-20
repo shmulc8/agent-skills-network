@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Agent Skills — Latent Space</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="./styles.css" />
+<link rel="icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='6' fill='%239adfff'/><circle cx='16' cy='16' r='11' fill='none' stroke='%239adfff' stroke-opacity='0.4'/></svg>" />
+
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+  }
+}
+</script>
+</head>
+<body>
+
+<div class="loading" id="loading"><span class="pulse"></span>Projecting latent space...</div>
+
+<header>
+  <div class="brand-wrap">
+    <button class="btn icon-btn" id="legendToggle" aria-label="Toggle topics">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
+    </button>
+    <div class="brand"><span class="dot"></span>Agent Skills Latent Space
+      <span class="sub" id="brandSub">MiniLM · UMAP 3D</span>
+    </div>
+  </div>
+  <div class="tools">
+    <div class="search-wrap">
+      <input class="search" id="search" placeholder="Search..." autocomplete="off" />
+      <div class="results" id="results"></div>
+    </div>
+    <button class="btn" id="resetView">Reset</button>
+  </div>
+</header>
+<div class="backdrop" id="backdrop"></div>
+
+<div id="stage"></div>
+
+<aside class="legend" id="legend">
+  <div class="mode-toggle">
+    <h3>Color by</h3>
+    <div class="mode-row">
+      <label class="mode-opt"><input type="radio" name="colorMode" value="cluster" checked /><span>Topic</span></label>
+      <label class="mode-opt"><input type="radio" name="colorMode" value="team" /><span>Team</span></label>
+    </div>
+  </div>
+  <h3 id="legendTitle">Topic clusters</h3>
+  <div id="clusters"></div>
+  <div class="hint-text">
+    Click an entry to isolate. Shift-click to toggle. Drag to rotate · scroll to zoom · right-drag to pan.
+  </div>
+</aside>
+
+<aside class="info" id="info">
+  <button class="close" id="close">✕</button>
+  <h2 id="i-title"></h2>
+  <div class="meta" id="i-meta"></div>
+  <div class="body" id="i-body"></div>
+</aside>
+
+<div class="tip" id="tip">
+  <div class="t-title"></div>
+  <div class="t-team"></div>
+  <div class="t-prev"></div>
+</div>
+
+<div class="hint" id="hint">drag to rotate · scroll to zoom · click a point</div>
+
+<script type="module" src="./app.js"></script>
+</body>
+</html>
