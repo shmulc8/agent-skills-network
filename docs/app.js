@@ -215,9 +215,9 @@ function build() {
   scene.add(glowCloud);
 
 
-  const ringGeo = new THREE.RingGeometry(0.035, 0.042, 32);
+  const ringGeo = new THREE.RingGeometry(0.018, 0.022, 32);
   const ringMat = new THREE.MeshBasicMaterial({
-    color: 0xffffff, transparent: true, opacity: 0.75, side: THREE.DoubleSide,
+    color: 0xffffff, transparent: true, opacity: 0.7, side: THREE.DoubleSide,
   });
   const selRing = new THREE.Mesh(ringGeo, ringMat);
   selRing.visible = false;
