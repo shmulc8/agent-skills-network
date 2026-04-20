@@ -4,6 +4,8 @@ Interactive 3D map of 900+ agent skills from [VoltAgent/awesome-agent-skills](ht
 
 **Live:** https://shmulc8.github.io/agent-skills-network/
 
+![Agent Skills Latent Space — 907 points, 10 Gemma-labeled topic clusters](docs/assets/preview.png)
+
 ## How it works
 
 1. Fetch the `awesome-agent-skills` README — a curated list of ~900 skills in the form `- **[org/skill-name](url)** - short description`.
