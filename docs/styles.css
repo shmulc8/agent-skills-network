@@ -337,4 +337,22 @@ canvas { display: block; }
 
   .results { width: calc(100vw - 24px); right: -60px; max-height: 60vh; }
   .hint { display: none; }
+
+  /* Modal: top-align on mobile so the whole card is reachable via scroll;
+     centering vertically clips the top above the scroll window. */
+  .modal { align-items: flex-start; padding: 16px 12px; }
+  .modal-card { padding: 22px 22px 20px; border-radius: 14px; }
+  .modal-card h2 { padding-inline-end: 40px; }
+  .modal-card .close {
+    top: 8px;
+    inset-inline-end: 8px; inset-inline-start: auto;
+    width: 36px; height: 36px; font-size: 18px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.06);
+  }
 }
+
+/* Hide the header `?` while the modal is open so it doesn't overlap the
+   modal close button visually (they land in the same top-right area). */
+body.modal-open .help-btn { visibility: hidden; }

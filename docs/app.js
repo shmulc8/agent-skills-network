@@ -36,6 +36,7 @@ let teamById = new Map();
   const toggle = (open) => {
     const willOpen = open ?? !helpModal.classList.contains('open');
     helpModal.classList.toggle('open', willOpen);
+    document.body.classList.toggle('modal-open', willOpen);
   };
   helpBtn.addEventListener('click', () => toggle(true));
   helpClose.addEventListener('click', () => toggle(false));
