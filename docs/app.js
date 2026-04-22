@@ -448,6 +448,7 @@ function build() {
     }
     iBody.textContent = p.description || '';
     info.classList.add('open');
+    document.body.classList.add('info-open');
   }
   const legendEl = document.getElementById('legend');
   const backdropEl = document.getElementById('backdrop');
@@ -462,6 +463,7 @@ function build() {
 
   document.getElementById('close').addEventListener('click', () => {
     info.classList.remove('open');
+    document.body.classList.remove('info-open');
     selectedId = -1;
     selRing.visible = false;
     updateAlphas();
@@ -693,6 +695,7 @@ function build() {
   window.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
       info.classList.remove('open');
+      document.body.classList.remove('info-open');
       selectedId = -1;
       selRing.visible = false;
       updateAlphas();
